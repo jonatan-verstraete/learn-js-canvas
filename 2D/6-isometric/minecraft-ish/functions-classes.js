@@ -115,6 +115,9 @@ function nameConvert(x, y, z) {
 /** main cube class */
 class Cube {
   constructor(x, y, z, v) {
+    this.init(x, y, z, v)
+  }
+  init(x, y, z, v, material = null) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -123,7 +126,9 @@ class Cube {
     this.projx = x;
     this.projy = y;
     this.projz = z;
-    this.mat = null;
+    this.mat = material;
+    this.id = nameConvert(x, y, z)
+
   }
   project() {
     // project point in space

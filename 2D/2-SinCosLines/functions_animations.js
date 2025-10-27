@@ -31,6 +31,7 @@ class Animate {
     saturation = 40,
     transparency = 0.2,
     grayscale = false,
+    clearColor = undefined
   } = {}) {
     this.amp = amp;
     this.freq = freq;
@@ -61,6 +62,7 @@ class Animate {
     this.gradientSpeed = gradientSpeed;
     this.movingGradient = movingGradient;
     this.currentGradient = 0;
+    this.clearColor = clearColor
 
     this.colorModulus = Math.round(
       this.linesAmount / (gradientReachMax * gradientCount)
@@ -94,14 +96,14 @@ class Animate {
   async zoomer({ adder = 0.01 } = {}) {
     let sum = 1;
     for (let i = 0; i < 100; i++) {
-      if (sum > 2 || sum < -2) {
+      if (sum > 1 || sum < -1) {
         adder *= -1;
       }
 
       sum += adder;
       ctx.scale(sum, sum);
 
-      await sleep(1);
+      await sleep(.1);
       await pauseHalt();
     }
   }
@@ -266,6 +268,14 @@ class Animate {
     });
   }
 
+    async windowCleaner2025(flag = false) {
+    this.amp = 1;
+    return await this.#main(() => {
+      ctx.moveTo(Xmid, Ymid + this.i);
+      ctx.lineTo(this.randomness, this.a);
+    });
+  }
+
   async dancingColors(flag = false) {
     ctx.lineWidth = 1;
     return await this.#main(() => {
@@ -344,7 +354,7 @@ class Animate {
     this.transparency = 0.5;
 
     return await this.#main(async () => {
-      clear();
+      clear(this.clearColor);
       points.showMovement();
       await sleep(0.1);
       await pauseHalt();
@@ -367,7 +377,7 @@ class Animate {
   /** main */
   async #main(func) {
     for (let x = 0; x < this.loopLength; x += 1) {
-      clear();
+      clear(this.clearColor);
       if (
         this.adder == false &&
         (this.flowMid > this.horizon || this.flowMid < -this.horizon)
@@ -385,8 +395,8 @@ class Animate {
               if (this.movingGradient && x % this.gradientSpeed == 0) {
                 this.currentGradient += 1;
               }
-              ctx.strokeStyle = `hsla(${overCount(
-                i / this.colorModulus + this.currentGradient,
+              ctx.strokeStyle = `hsla(${(
+                i / this.colorModulus + this.currentGradient &
                 this.gradientReachMax
               ).toFixed(0)},${this.saturation}%,50%,${this.transparency})`;
             }
