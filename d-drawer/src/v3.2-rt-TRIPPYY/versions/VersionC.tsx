@@ -87,7 +87,7 @@ const Main = () => {
       console.log(camera.position.toArray(), camera.matrix.toArray());
     }
     if (analyzer && dataArray && !paused.current) {
-      analyzer.getFloatFrequencyData(dataArray);
+      analyzer.getFloatFrequencyData(dataArray as any);
 
       // const { x, y, z } = camera.position;
       // camera.position.set(x, y, z);

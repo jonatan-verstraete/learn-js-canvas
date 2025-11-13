@@ -27,7 +27,7 @@ const Main = () => {
     return () => removeEventListener("keydown", ev);
   }, [paused.current]);
 
-  const { audioVars, frequencyData } = useAudioData("waves", false);
+  const { audioVars, frequencyData } = useAudioData("DowntownLA", false);
 
   const animate = useCallback(
     (i: number) => {

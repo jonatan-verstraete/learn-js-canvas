@@ -32,7 +32,7 @@ function WaveformVisualizer() {
         console.log({ frequencyData });
         return;
       }
-      analyzer.getFloatFrequencyData(dataArray);
+      analyzer.getFloatFrequencyData(dataArray as any);
       const audioData = Array.from(dataArray);
       if (audioData[0] !== -Infinity) {
         setFrequencyData((prev) => [...prev, audioData]);

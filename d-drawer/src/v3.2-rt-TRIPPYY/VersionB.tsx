@@ -86,7 +86,7 @@ const Main = () => {
     }
 
     if (analyzer && dataArray && !paused.current) {
-      analyzer.getFloatFrequencyData(dataArray);
+      analyzer.getFloatFrequencyData(dataArray as any);
       requestAnimationFrame(updateMesh);
       // (window as any).camera = camera;
     }

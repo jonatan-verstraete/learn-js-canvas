@@ -59,7 +59,7 @@ const Main = () => {
 
   useFrame(() => {
     if (analyzer && dataArray && !paused.current) {
-      analyzer.getFloatFrequencyData(dataArray);
+      analyzer.getFloatFrequencyData(dataArray as any);
       requestAnimationFrame(updateMesh);
     }
   });

@@ -1,25 +1,25 @@
 class Grid {
   constructor() {
-    this.cubes = new Map()
+    this.cubes = new Map();
   }
 
   getCube(x, y, z, val) {
-    const key = nameConvert(x, y, z)
-    const existing = this.cubes.get(key)
+    const key = nameConvert(x, y, z);
+    const existing = this.cubes.get(key);
     if (existing) {
       if (existing.v === val) {
-        return existing
+        return existing;
       }
-      existing.init(x, y, z, val)
-      return existing
+      existing.init(x, y, z, val);
+      return existing;
     }
-    const cube = new Cube(x, y, z, val)
-    this.cubes.set(key, cube)
-    return cube
+    const cube = new Cube(x, y, z, val);
+    this.cubes.set(key, cube);
+    return cube;
   }
   copyCube(key, existingId) {
     if (!this.cubes.has(key)) {
-      this.cubes.set(key, this.cubes.get(existingId))
+      this.cubes.set(key, this.cubes.get(existingId));
     }
   }
 
@@ -34,10 +34,12 @@ class Grid {
         const CON = material.continentalness(perlVal, gridSize.z);
         // peaks & valleys (high contrast)
         const PV =
-          ((1 + noise.perlin3(x / (df / 2), y / (df / 2), zoff)) / 2) * gridSize.z;
+          ((1 + noise.perlin3(x / (df / 2), y / (df / 2), zoff)) / 2) *
+          gridSize.z;
         // erosion (wide speader area), low df
         const ERO =
-          ((1 + noise.perlin3(x / (df * 2), y / (df * 2), zoff)) / 2) * gridSize.z;
+          ((1 + noise.perlin3(x / (df * 2), y / (df * 2), zoff)) / 2) *
+          gridSize.z;
 
         const rv = Math.round((PV + ERO + CON) / 3);
         const res = this.getCube(x, y, rv, rv);
@@ -55,7 +57,7 @@ class Grid {
           } else if (z > rv && z <= terrain.waterlevel) {
             // under sealevel
             if (res.mat.type === material.water.type) val = 0;
-            else continue
+            // else continue;
           }
           //log(val, isair)
           const n = this.getCube(x, y, z, val);
@@ -66,22 +68,34 @@ class Grid {
   }
 
   draw() {
-    this.#generate()
+    this.#generate();
     for (const [k, v] of this.cubes) {
-      v.draw()
+      v.draw();
     }
   }
 }
 
+const visibleAreaMap = new Map();
+const isOutOfView = (x, y, z) => {
+  if (z < terrain.waterlevel) {
+    return true;
+  }
+  return false;
+};
 
-const lightDisMap = new Map()
+const lightDisMap = new Map();
 function drawBLock(pt) {
   const { projx: x, projy: y, projz: z, v, mat: cl } = pt;
 
-  const lightkey = nameConvert(x, y, z)
-  const existingLight = lightDisMap.get(lightkey)
+  if (isOutOfView(x, y, z) || cl.type === 'air') {
+    return;
+  }
 
-  const lightDis = existingLight??
+  const lightkey = nameConvert(x, y, z);
+  const existingLight = lightDisMap.get(lightkey);
+
+  const lightDis =
+    existingLight ??
     distanceToZ(
       {
         x: x * tileWidth,
@@ -91,9 +105,9 @@ function drawBLock(pt) {
       lighting
     ) / 10;
 
-    if(!existingLight){
-      lightDisMap.set(lightkey, lightDis)
-    }
+  if (!existingLight) {
+    lightDisMap.set(lightkey, lightDis);
+  }
 
   // global light value
   const glv =
@@ -112,15 +126,6 @@ function drawBLock(pt) {
   ctx.translate(((x - y) * tileWidth) / 2, ((x + y) * th) / 2);
 
   const topy = th / 2 - zileHeight;
-  // bottom
-  // ctx.fillStyle = bottom;
-  // ctx.beginPath();
-  // ctx.moveTo(0, topy + th / 2);
-  // ctx.lineTo(tileWidth / 2, topy + th);
-  // ctx.lineTo(0, topy + th * 1.5);
-  // ctx.lineTo(-tileWidth / 2, topy + th);
-  // ctx.closePath();
-  // ctx.fill();
 
   // top
   ctx.fillStyle = top;
@@ -163,27 +168,29 @@ const main = () => {
   //grid.generate()
   //ctx.clearRect(-Xmax, -Ymax, Xmax, Ymax)
   window.onclick = () => {
-    pause = true;
+    pause = !pause;
   };
   zoff = 1;
 
-  let times = []
+  let times = [];
 
   const animate = async () => {
-    const t = Date.now()
+    const t = Date.now();
     clear();
 
     ctx.translate(spX, spY);
     grid.draw();
     ctx.translate(-spX, -spY);
 
-    zoff += 0.05;
-    // await pauseHalt();
     // await sleep(0.5);
-    const n = Date.now() - t
-    times.push(n)
-    console.log(n, times.average())
-    requestAnimationFrame(animate)
+    const ms = Date.now() - t;
+    times.push(ms);
+    // console.log(n, times.average());
+    textCenter(`${ms.toFixed(0)} | ${times.average().toFixed(0)}`)
+
+    zoff += 0.05;
+    await pauseHalt();
+    requestAnimationFrame(animate);
   };
   animate();
 };
@@ -191,7 +198,7 @@ const main = () => {
 const material = new Material();
 const grid = new Grid();
 
-window.onload = () => main();
+window.onload = main;
 
 /*
 TODO real-time:

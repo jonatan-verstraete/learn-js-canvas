@@ -12,14 +12,14 @@ let analyzer: AnalyserNode | null,
   audioCtx: AudioContext | null;
 
 export const useAudioData = (
-  fileName: string,
+  fileName: 'DowntownLA',
   yooooowStopPlayingWhileImDeveloping = false
 ) => {
   const [frequencyData, setFrequencyData] = useState<number[]>([]);
 
   useFrame(() => {
     if (analyzer && dataArray) {
-      analyzer.getFloatFrequencyData(dataArray);
+      analyzer.getFloatFrequencyData(dataArray as any);
       const audioData = Array.from(dataArray);
       if (audioData[0] !== -Infinity) {
         setFrequencyData(audioData);

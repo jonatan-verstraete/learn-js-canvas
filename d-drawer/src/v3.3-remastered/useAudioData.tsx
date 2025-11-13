@@ -14,7 +14,7 @@ export const useAudioData = (fileName: string) => {
 
   useFrame(() => {
     if (analyzer && dataArray) {
-      analyzer.getFloatFrequencyData(dataArray);
+      analyzer.getFloatFrequencyData(dataArray as any);
       const audioData = Array.from(dataArray);
       if (audioData[0] !== -Infinity) {
         setFrequencyData(audioData);

@@ -59,7 +59,7 @@ const Main = () => {
   }, [paused.current]);
 
   const { controlA, controlB, controlC, ogInc } = useControls(controls);
-  const { audioVars } = useAudioData("phonk", false);
+  const { audioVars } = useAudioData("DowntownLA", false);
 
   const animate = useCallback(
     (i: number) => {
