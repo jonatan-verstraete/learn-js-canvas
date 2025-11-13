@@ -3,8 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { Box, OrbitControls, Sphere } from "@react-three/drei";
 
 // import Main from "./AudioOnly";
-// import Main from "./Main";
-import Main from "./MainTestAudio";
+import Main from "./Main";
+// import Main from "./MainTestAudio";
 
 export default () => (
   <>

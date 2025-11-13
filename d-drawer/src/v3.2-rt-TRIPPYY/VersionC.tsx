@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import { InstancedMesh, BufferGeometry, BoxGeometry, Matrix4 } from "three";
 import { useControls } from "leva";
 
-const totalNrPoints = 50000;
+const totalNrPoints = 100000;
 const radius = 200;
 
 const instanceArgs = [new BoxGeometry(1, 1, 1), undefined, totalNrPoints];

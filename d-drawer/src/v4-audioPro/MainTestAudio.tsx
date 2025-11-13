@@ -16,6 +16,7 @@ const totalNrPoints = bufferSize;
 const instanceArgs = [new BoxGeometry(1, 1, 1), undefined, totalNrPoints];
 const matrix = new Matrix4();
 
+
 const Main = () => {
   const meshRef = useRef<InstancedMesh<BufferGeometry> | any>();
   const paused = useRef(false);

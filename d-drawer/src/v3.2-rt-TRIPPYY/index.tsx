@@ -7,7 +7,9 @@ import { MAX_HEIGHT, TIME_SEGMENTS } from "./consts";
 
 // import Main from "./AudioOnly";
 // import Main from "./VersionC";
-import Main from "./versions/VersionC copy 4";
+// import Main from "./VersionB";
+import Main from "./versions/VersionC copy 3";
+// import Main from "./versions/VersionC copy 5";
 
 import "./styles.css";
 

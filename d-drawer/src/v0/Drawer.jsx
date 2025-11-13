@@ -32,7 +32,7 @@ function WaveformVisualizer() {
         console.log({ frequencyData });
         return;
       }
-      analyzer.getFloatFrequencyData(dataArray as any);
+      analyzer.getFloatFrequencyData(dataArray);
       const audioData = Array.from(dataArray);
       if (audioData[0] !== -Infinity) {
         setFrequencyData((prev) => [...prev, audioData]);
@@ -45,7 +45,7 @@ function WaveformVisualizer() {
 
     audioCtx = new AudioContext();
     const audioElm = new Audio();
-    audioElm.src = "./sketch7.mp3";
+    audioElm.src = "./DowntownLA.mp3";
     audioElm.autoplay = true;
     audioElm.preload = "auto";
     const audioSourceNode = audioCtx.createMediaElementSource(audioElm);

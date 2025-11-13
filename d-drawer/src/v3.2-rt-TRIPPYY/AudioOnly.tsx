@@ -27,7 +27,7 @@ const Main = () => {
     if (!audioCtxRef.current || !masterGainRef.current) return;
     window.voices += 1;
     const audio = new Audio();
-    audio.src = "./sketch7.mp3";
+    audio.src = "./DowntownLA.mp3";
     audio.autoplay = true;
     audio.preload = "auto";
 
