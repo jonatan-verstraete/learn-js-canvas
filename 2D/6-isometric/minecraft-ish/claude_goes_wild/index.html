@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Minecraft-Style Isometric Terrain</title>
+    <link rel="stylesheet" href="/main.css">
+    <style>
+        body {
+            background: #87CEEB;
+            margin: 0;
+            padding: 0;
+        }
+        canvas {
+            display: block;
+        }
+        
+        .hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #0f0;
+            font-family: monospace;
+            padding: 15px;
+            border: 2px solid #0f0;
+            border-radius: 5px;
+            font-size: 12px;
+            line-height: 1.6;
+            z-index: 100;
+        }
+        
+        .hud-title {
+            color: #0ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .hud-stat {
+            display: flex;
+            justify-content: space-between;
+            min-width: 200px;
+        }
+        
+        .hud-stat .label {
+            color: #0aa;
+        }
+        
+        .hud-stat .value {
+            color: #0f0;
+            font-weight: bold;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #0f0;
+            font-family: monospace;
+            padding: 15px;
+            border: 2px solid #0aa;
+            border-radius: 5px;
+            font-size: 11px;
+            line-height: 1.5;
+            z-index: 100;
+            /* should not overlay */
+            display: none;
+        }
+        
+        .controls-title {
+            color: #0ff;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .control-item {
+            margin: 3px 0;
+        }
+        
+        .debug {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #f0f;
+            font-family: monospace;
+            padding: 15px;
+            border: 2px solid #f0f;
+            border-radius: 5px;
+            font-size: 10px;
+            line-height: 1.4;
+            z-index: 100;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .debug-title {
+            color: #f0f;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="centered">
+        <canvas id="canvas_01" width="1200" height="900"></canvas>
+    </div>
+    
+    <div class="hud">
+        <div class="hud-title">⚡ PERFORMANCE</div>
+        <div class="hud-stat">
+            <span class="label">Frame:</span>
+            <span class="value" id="fps">--ms</span>
+        </div>
+        <div class="hud-stat">
+            <span class="label">Average:</span>
+            <span class="value" id="avg">--ms</span>
+        </div>
+        <div class="hud-stat">
+            <span class="label">Blocks:</span>
+            <span class="value" id="blocks">--</span>
+        </div>
+        <div style="margin-top: 10px; border-top: 1px solid #0aa; padding-top: 10px;">
+            <div class="hud-title" style="margin: 0 0 8px 0;">🎮 CONTROLS</div>
+            <div class="hud-stat">
+                <span class="label">Move:</span>
+                <span class="value">↑↓←→</span>
+            </div>
+            <div class="hud-stat">
+                <span class="label">Rotate:</span>
+                <span class="value">Q/E</span>
+            </div>
+            <div class="hud-stat">
+                <span class="label">Zoom:</span>
+                <span class="value">+/-</span>
+            </div>
+            <div class="hud-stat">
+                <span class="label">Pause:</span>
+                <span class="value">Space</span>
+            </div>
+            <div class="hud-stat">
+                <span class="label">Toggle UI:</span>
+                <span class="value">I</span>
+            </div>
+        </div>
+        <div style="margin-top: 10px; border-top: 1px solid #0aa; padding-top: 10px;">
+            <div class="hud-title" style="margin: 0 0 8px 0;">📍 POSITION</div>
+            <div class="hud-stat">
+                <span class="label">Grid X:</span>
+                <span class="value" id="pos-x">0.0</span>
+            </div>
+            <div class="hud-stat">
+                <span class="label">Grid Y:</span>
+                <span class="value" id="pos-y">0.0</span>
+            </div>
+            <div class="hud-stat">
+                <span class="label">Zoom:</span>
+                <span class="value" id="pos-z">1.0x</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="debug">
+        <div class="debug-title">🔧 DEBUG INFO</div>
+        <div id="debug-info"></div>
+    </div>
+
+    <script src="/libs/perlin.js"></script>
+    <script src="/setup.js"></script>
+    <script src="consts.js"></script>
+    <script src="enhanced.js"></script>
+</body>
+</html>

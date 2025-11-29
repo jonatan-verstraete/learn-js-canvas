@@ -83,6 +83,7 @@ const isOutOfView = (x, y, z) => {
   return false;
 };
 
+const _hsl = (h, ...a)=> hsl(h +zoff * 20, ...a)
 const lightDisMap = new Map();
 function drawBLock(pt) {
   const { projx: x, projy: y, projz: z, v, mat: cl } = pt;
@@ -116,26 +117,24 @@ function drawBLock(pt) {
       : (((lightDis * z * lighting.l) / gridSize.tile) * cl.l) / 50;
   //const glv = cl.l
 
-  const top = hsl(cl.v, cl.s, glv, cl.a),
-    left = hsl(cl.v, cl.s, glv * 0.6, cl.a),
-    right = hsl(cl.v, cl.s, glv * 0.8, cl.a);
+  const top = _hsl(cl.v, cl.s, glv, cl.a),
+    left = _hsl(cl.v, cl.s, glv * 0.6, cl.a),
+    right = _hsl(cl.v, cl.s, glv * 0.8, cl.a);
   const th = tileHeight;
   let zileHeight = (z + (cl.type === material.water.type ? 0.5 : 0)) * th;
 
-  // ctx.save();
-  // ctx.translate(((x - y) * tileWidth) / 2, ((x + y) * th) / 2);
-
-  const x0 = ((x - y) * tileWidth) / 2 + spX
-  const y0 = ((x + y) * th) / 2 + spY
+  ctx.save();
+  ctx.translate(((x - y) * tileWidth) / 2, ((x + y) * th) / 2);
 
   const topy = th / 2 - zileHeight;
 
+  // top
   ctx.fillStyle = top;
   ctx.beginPath();
-  ctx.moveTo(x0+0, y0+-zileHeight);
-  ctx.lineTo(x0+tileWidth / 2, y0+topy);
-  ctx.lineTo(x0+0, y0+th - zileHeight);
-  ctx.lineTo(x0+-tileWidth / 2, y0+topy);
+  ctx.moveTo(0, -zileHeight);
+  ctx.lineTo(tileWidth / 2, topy);
+  ctx.lineTo(0, th - zileHeight);
+  ctx.lineTo(-tileWidth / 2, topy);
   ctx.closePath();
   ctx.fill();
   // left
@@ -143,25 +142,24 @@ function drawBLock(pt) {
   ctx.fillStyle = left;
 
   ctx.beginPath();
-  ctx.moveTo(x0+-tileWidth / 2,y0+ topy);
-  ctx.lineTo(x0+0, y0+th - zileHeight);
-  ctx.lineTo(x0+0, y0+th - zileHeight + th);
-  ctx.lineTo(x0+-tileWidth / 2,y0+ topy + th);
+  ctx.moveTo(-tileWidth / 2, topy);
+  ctx.lineTo(0, th - zileHeight);
+  ctx.lineTo(0, th - zileHeight + th);
+  ctx.lineTo(-tileWidth / 2, topy + th);
   ctx.closePath();
   ctx.fill();
 
   // left
   ctx.fillStyle = right;
   ctx.beginPath();
-  ctx.moveTo(x0+tileWidth / 2, y0+topy);
-  ctx.lineTo(x0+0, y0+th - zileHeight);
-  ctx.lineTo(x0+0, y0+th - zileHeight + th);
-  ctx.lineTo(x0+tileWidth / 2, y0+ th / 2 - zileHeight + th);
+  ctx.moveTo(tileWidth / 2, topy);
+  ctx.lineTo(0, th - zileHeight);
+  ctx.lineTo(0, th - zileHeight + th);
+  ctx.lineTo(tileWidth / 2, th / 2 - zileHeight + th);
   ctx.closePath();
   ctx.fill();
 
-
-  // ctx.restore();
+  ctx.restore();
 }
 
 const main = () => {
@@ -181,15 +179,14 @@ const main = () => {
     const t = Date.now();
     clear();
 
-    // ctx.translate(spX, spY);
+    ctx.translate(spX, spY);
     grid.draw();
-    // ctx.translate(-spX, -spY);
+    ctx.translate(-spX, -spY);
 
     // await sleep(0.5);
-    const ms = Date.now() - t;
-    times.push(ms);
-    ctx.fillStyle  ='red'
-    textCenter(`${ms.toFixed(0)} | ${times.average().toFixed(0)}`)
+    // const ms = Date.now() - t;
+    // times.push(ms);
+    // textCenter(`${ms.toFixed(0)} | ${times.average().toFixed(0)}`)
 
     zoff += 0.05;
     await pauseHalt();

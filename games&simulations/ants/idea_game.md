@@ -136,3 +136,9 @@ Best idea might be to cheat and assign iteligent ants
 
 
 
+
+
+
+----
+what do you think of this game idea? I dont want to spend time making it, but in a couple of years/moths agents could be develooping this, right?
+Could even make it like w world of warcraft kinda gameplay, where you can choose to lead a colony as queen or be a rogue single ant and upgrade and a whole skill three (what people like) and modern gimicks like loots and new maps or even game resets or word domination of ant wars... etc
