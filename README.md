@@ -1,3 +1,3 @@
-# explorations in/with JS canvas 
+# exploring Canvas API
 
 <img src="preview.gif" />
